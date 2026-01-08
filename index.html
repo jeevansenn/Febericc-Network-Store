@@ -17,6 +17,7 @@
             --sidebar-bg: rgba(15, 23, 42, 0.9);
             --text-white: #f8fafc;
             --success-green: #10b981;
+            --warning-red: #f43f5e;
             --bright-blue: #00d2ff;
             --wayfarer-color: #94a3b8;
             --paragon-color: #a855f7;
@@ -128,13 +129,25 @@
             padding: 70px 20px;
         }
 
+        /* --- LOGO ANIMATION ADDED --- */
         .logo h1 {
             font-family: 'Rajdhani', sans-serif;
             font-size: 3.5rem;
             color: #fff;
             text-transform: uppercase;
             letter-spacing: 4px;
-            text-shadow: 0 0 20px var(--blue-glow);
+            position: relative;
+            background: linear-gradient(90deg, #fff, var(--blue-glow), #fff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shineText 3s linear infinite, logoPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes shineText { to { background-position: 200% center; } }
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--blue-glow)); }
+            50% { transform: scale(1.03); filter: drop-shadow(0 0 25px var(--blue-accent)); }
         }
 
         .logo p { letter-spacing: 8px; font-weight: 400; color: var(--blue-glow); font-size: 0.8rem; }
@@ -250,6 +263,31 @@
             font-weight: bold;
         }
 
+        /* --- DONATION GOAL STYLE (ANIMATION UPDATED) --- */
+        .goal-container {
+            margin-top: 25px;
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .goal-text {
+            display: flex; justify-content: space-between;
+            font-family: 'Rajdhani'; font-weight: bold; margin-bottom: 8px; font-size: 0.9rem;
+        }
+        .progress-bg {
+            width: 100%; height: 12px; background: #0f172a; border-radius: 20px; overflow: hidden;
+        }
+        .progress-fill {
+            width: 65%; height: 100%; 
+            background: linear-gradient(90deg, #3b82f6, #60a5fa, #3b82f6);
+            background-size: 200% 100%;
+            box-shadow: 0 0 15px var(--blue-accent);
+            animation: goalLoad 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards, barShimmer 2s linear infinite;
+        }
+        @keyframes goalLoad { from { width: 0%; } to { width: 65%; } }
+        @keyframes barShimmer { 0% { background-position: 0% 0%; } 100% { background-position: 200% 0%; } }
+
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -264,6 +302,7 @@
             border: 1px solid rgba(255,255,255,0.05);
             transition: all 0.4s ease;
             backdrop-filter: blur(10px);
+            position: relative;
         }
 
         .card:hover { 
@@ -273,13 +312,25 @@
             background: rgba(17, 24, 39, 0.95);
         }
 
+        /* --- ETERNAL GLOW EFFECT --- */
+        .card.eternal-glow {
+            border: 2px solid var(--eternal-color);
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.2);
+            animation: eternalPulse 3s infinite;
+        }
+        @keyframes eternalPulse {
+            0% { box-shadow: 0 0 15px rgba(251, 191, 36, 0.2); }
+            50% { box-shadow: 0 0 35px rgba(251, 191, 36, 0.6); }
+            100% { box-shadow: 0 0 15px rgba(251, 191, 36, 0.2); }
+        }
+
         .rank-title { font-family: 'Rajdhani', sans-serif; font-size: 1.8rem; margin-bottom: 10px; }
         .wayfarer { color: var(--wayfarer-color); }
         .warden { color: #55efc4; }
         .sentinel { color: #81ecec; }
         .overseer { color: #74b9ff; }
         .paragon { color: var(--paragon-color); }
-        .eternal { color: var(--eternal-color); }
+        .eternal { color: var(--eternal-color); text-shadow: 0 0 10px rgba(251, 191, 36, 0.4); }
 
         .price { font-size: 1.4rem; font-weight: 700; margin-bottom: 15px; display: block; color: #d1d5db; }
 
@@ -320,13 +371,39 @@
             border-radius: 10px; border-left: 5px solid var(--success-green);
             margin-top: 10px; font-family: 'Rajdhani'; box-shadow: 0 5px 15px rgba(0,0,0,0.4);
             animation: slideIn 0.3s ease-out;
+            transition: 0.5s;
         }
+        .notif.warning { border-left-color: var(--warning-red); background: #2d161a; }
+
         @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
         .cart-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
         .cart-table th { text-align: left; padding: 15px; background: rgba(59, 130, 246, 0.1); color: var(--blue-glow); font-family: 'Rajdhani'; }
         .cart-table td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .btn-remove { background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.7rem; }
+
+        /* --- FLOATING WA BUTTON CSS --- */
+        .wa-float {
+            position: fixed; bottom: 40px; left: 40px; 
+            z-index: 4000; display: flex; align-items: center; 
+            text-decoration: none;
+        }
+        .wa-button {
+            width: 60px; height: 60px; background: #25D366; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            transition: 0.3s;
+        }
+        .wa-float:hover .wa-button { transform: scale(1.1) rotate(15deg); }
+        .wa-text {
+            background: white; color: #000; padding: 8px 15px; 
+            border-radius: 8px; margin-left: 15px; font-size: 0.8rem;
+            font-weight: bold; font-family: 'Rajdhani';
+            opacity: 0; transform: translateX(-20px); transition: 0.3s;
+            pointer-events: none; white-space: nowrap;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .wa-float:hover .wa-text { opacity: 1; transform: translateX(0); }
 
         .modal {
             display: none;
@@ -344,7 +421,7 @@
             padding: 30px;
             border-radius: 20px;
             width: 90%; max-width: 500px;
-            border: 1px solid var(--blue-accent);
+            border: 2px solid var(--blue-accent);
             position: relative;
             max-height: 80vh;
             overflow-y: auto;
@@ -371,9 +448,30 @@
 
         footer { text-align: center; padding: 50px 20px; opacity: 0.6; font-size: 0.85rem; line-height: 2; }
 
-        /* =========================================
-           MOBILE RESPONSIVE ADDITION (NO CHANGES)
-           ========================================= */
+        .voucher-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .voucher-input-group input {
+            flex-grow: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(15, 23, 42, 0.6);
+            color: white;
+            font-family: 'Rajdhani';
+        }
+        .btn-voucher {
+            background: var(--blue-accent);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
         @media (max-width: 900px) {
             .top-nav { padding: 10px 20px; }
             .container { flex-direction: column; gap: 20px; }
@@ -382,16 +480,8 @@
             .main-header { padding: 40px 10px; }
             .server-status { font-size: 0.7rem; padding: 8px 15px; }
             .login-box { width: 90%; padding: 30px 20px; }
-            .user-cart-display h4 { display: none; } /* Sembunyikan nama di HP biar lega */
-        }
-        
-        @media (max-width: 600px) {
-            .grid { grid-template-columns: 1fr; } /* Satu kolom di HP kecil */
-            .top-nav { gap: 10px; }
-            .discord-btn { padding: 8px 12px; font-size: 0.8rem; }
-            .user-cart-display { padding: 8px 12px; }
-            .cart-table th, .cart-table td { padding: 10px 5px; font-size: 0.8rem; }
-            .category-title { font-size: 1.2rem; text-align: center; }
+            .user-cart-display h4 { display: none; }
+            .wa-float { bottom: 20px; left: 20px; }
         }
     </style>
 </head>
@@ -408,6 +498,13 @@
         </div>
     </div>
 
+    <a href="https://wa.me/6283137005325?text=Halo%20admin%20saya%20butuh%20bantuan" target="_blank" class="wa-float">
+        <div class="wa-button">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M12.031 6.172c-2.32 0-4.591.905-6.391 2.547-1.8 1.642-2.791 3.826-2.791 6.151 0 1.24.262 2.453.774 3.568l-1.623 4.894 5.047-1.32c1.062.515 2.221.787 3.414.787h.005c2.32 0 4.591-.905 6.391-2.547 1.8-1.642 2.791-3.826 2.791-6.151 0-4.81-4.103-8.729-9.117-8.729zm5.86 12.871c-1.62 1.482-3.772 2.298-6.062 2.298h-.004c-1.127 0-2.241-.26-3.23-.75l-.232-.115-3.003.785.804-2.427-.132-.21c-.563-.895-.86-1.928-.86-2.992 0-2.112.91-4.09 2.562-5.594s3.832-2.33 6.122-2.33c4.468 0 8.117 3.473 8.117 7.729 0 2.112-.91 4.09-2.562 5.594z"/></svg>
+        </div>
+        <div class="wa-text">Need a help?</div>
+    </a>
+
     <nav class="top-nav">
         <a href="https://discord.gg/gcBtJGjs" target="_blank" class="discord-btn">💬 JOIN DISCORD</a>
         <div class="user-cart-display" onclick="openTab(null, 'checkoutTab')">
@@ -419,7 +516,7 @@
         </div>
     </nav>
 
-    <div class="promo-bar">🎉 GRAND OPENING SALE! ❄️ GUNAKAN KODE → <span class="coupon">Jevann</span></div>
+    <div class="promo-bar">🎉 GRAND OPENING SALE! USE COUPON → <span class="coupon">Jevann</span></div>
 
     <header class="main-header">
         <div class="logo">
@@ -451,9 +548,17 @@
             <div id="home" class="tab-content active">
                 <h2 class="category-title">🏠 WELCOME TO FEBERICC II</h2>
                 <div class="info-box">
-                    <p><span class="highlight-blue">Halo petualang!</span> Selamat datang di toko resmi <strong class="highlight-blue">Febericc II Network</strong>. Di sini kamu bisa mendukung keberlangsungan server kami sekaligus mendapatkan fitur-fitur keren.</p>
-                    <br>
-                    <p>Silakan pilih kategori di samping untuk melihat produk yang tersedia. Semua transaksi aman dan diproses secara otomatis. Jika ada kendala, hubungi admin melalui Discord!</p>
+                    <p><span class="highlight-blue">Hello wayfarer!</span> Welcome to the official store of <strong class="highlight-blue">Febericc II Network</strong>. Here you can support the continuity of our server while getting cool features.</p>
+                    <div class="goal-container">
+                        <div class="goal-text">
+                            <span>SERVER MAINTENANCE GOAL - JANUARY</span>
+                            <span style="color: var(--eternal-color);">Rp 650.000 / Rp 1.000.000</span>
+                        </div>
+                        <div class="progress-bg">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <p style="font-size: 0.7rem; margin-top: 10px; text-align: center; opacity: 0.7;">Help us achieve our goal of better server performance! 🚀</p>
+                    </div>
                 </div>
             </div>
 
@@ -474,27 +579,28 @@
                     </div>
                     <div class="card">
                         <h2 class="rank-title sentinel">SENTINEL ⚔️</h2>
-                        <span class="price">Rp 15.000</span>
+                        <span class="price">Rp 20.000</span>
                         <button class="btn-benefit" onclick="showModal('sentinel')">VIEW BENEFITS</button>
-                        <button class="btn-add" onclick="addToCart('SENTINEL', 15000)">+ Add to cart</button>
+                        <button class="btn-add" onclick="addToCart('SENTINEL', 20000)">+ Add to cart</button>
                     </div>
                     <div class="card">
                         <h2 class="rank-title overseer">OVERSEER 👁️</h2>
-                        <span class="price">Rp 20.000</span>
+                        <span class="price">Rp 30.000</span>
                         <button class="btn-benefit" onclick="showModal('overseer')">VIEW BENEFITS</button>
-                        <button class="btn-add" onclick="addToCart('OVERSEER', 20000)">+ Add to cart</button>
+                        <button class="btn-add" onclick="addToCart('OVERSEER', 30000)">+ Add to cart</button>
                     </div>
                     <div class="card">
                         <h2 class="rank-title paragon">PARAGON 🔮</h2>
-                        <span class="price">Rp 25.000</span>
+                        <span class="price">Rp 40.000</span>
                         <button class="btn-benefit" onclick="showModal('paragon')">VIEW BENEFITS</button>
-                        <button class="btn-add" onclick="addToCart('PARAGON', 25000)">+ Add to cart</button>
+                        <button class="btn-add" onclick="addToCart('PARAGON', 40000)">+ Add to cart</button>
                     </div>
-                    <div class="card">
+                    <div class="card eternal-glow">
+                        <div style="position: absolute; top: -10px; right: -10px; background: var(--eternal-color); color: #000; font-size: 0.65rem; padding: 5px 12px; border-radius: 4px; font-weight: 800; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">PREMIUM SELECTION</div>
                         <h2 class="rank-title eternal">ETERNAL 👑</h2>
-                        <span class="price">Rp 30.000</span>
+                        <span class="price">Rp 5    0.000</span>
                         <button class="btn-benefit" onclick="showModal('eternal')">VIEW BENEFITS</button>
-                        <button class="btn-add" onclick="addToCart('ETERNAL', 30000)">+ Add to cart</button>
+                        <button class="btn-add" onclick="addToCart('ETERNAL', 50000)">+ Add to cart</button>
                     </div>
                 </div>
             </div>
@@ -502,11 +608,9 @@
             <div id="donation" class="tab-content">
                 <h2 class="category-title">🎁 SERVER DONATION</h2>
                 <div class="info-box">
-                    <p>Dukungan Anda sangat berarti bagi perkembangan server kami! Jika Anda ingin memberikan <span class="highlight-blue">Donasi Sukarela</span> di luar pembelian rank, Anda bisa melakukannya melalui channel resmi kami.</p>
+                    <p>Your support means a lot to the development of our server! If you want to make a <span class="highlight-blue">Voluntary Donation</span> outside of rank purchases, you can do so through our official channel.</p>
                     <br>
-                    <p>Donasi dapat dikirimkan melalui QRIS, Dana, atau GoPay. Setelah melakukan donasi, silakan kirim bukti transfer ke admin melalui WhatsApp untuk mendapatkan <strong>Donator Role</strong> sebagai bentuk apresiasi kami!</p>
-                    <br>
-                    <a href="https://wa.me/6283137005325?text=Halo%20admin%20saya%20ingin%20donasi" target="_blank" class="btn-add" style="text-decoration: none; display: inline-block; width: auto; padding: 12px 30px; background: #25D366;">HUBUNGI ADMIN WHATSAPP</a>
+                    <a href="https://wa.me/6283137005325?text=Halo%20admin%20saya%20ingin%20donasi" target="_blank" class="btn-add" style="text-decoration: none; display: inline-block; width: auto; padding: 12px 30px; background: #25D366;">Contact Admin</a>
                 </div>
             </div>
 
@@ -514,11 +618,14 @@
                 <h2 class="category-title">🛒 YOUR SHOPPING CART</h2>
                 <div class="info-box">
                     <table class="cart-table" id="cartTable">
-                        <thead>
-                            <tr><th>Product</th><th>Price</th><th>Action</th></tr>
-                        </thead>
+                        <thead><tr><th>Product</th><th>Price</th><th>Action</th></tr></thead>
                         <tbody id="cartItems"></tbody>
                     </table>
+                    <div class="voucher-input-group">
+                        <input type="text" id="voucherInput" placeholder="Have a coupon?">
+                        <button class="btn-voucher" onclick="applyVoucher()">APPLY</button>
+                    </div>
+                    <p id="voucherStatus" style="font-size: 0.8rem; margin-bottom: 15px; font-weight: bold;"></p>
                     <div style="text-align: right; font-size: 1.5rem; font-family: 'Rajdhani';">
                         Total: <span id="totalPrice" style="color:var(--eternal-color)">Rp 0</span>
                     </div>
@@ -543,6 +650,7 @@
     <script>
         let cart = [];
         let username = "Guest";
+        let discountActive = false;
 
         function setName() {
             const val = document.getElementById('mcInput').value;
@@ -553,11 +661,11 @@
             document.getElementById('loginOverlay').style.display = "none";
         }
 
-        function notify(msg) {
+        function notify(msg, type = 'success') {
             const container = document.getElementById('notification-container');
             const div = document.createElement('div');
-            div.className = 'notif';
-            div.innerHTML = `✅ ${msg}`;
+            div.className = type === 'warning' ? 'notif warning' : 'notif';
+            div.innerHTML = type === 'warning' ? `⚠️ ${msg}` : `✅ ${msg}`;
             container.appendChild(div);
             setTimeout(() => { div.style.opacity = '0'; setTimeout(() => div.remove(), 500); }, 3000);
         }
@@ -580,9 +688,11 @@
         }
 
         function addToCart(name, price) {
+            const isExist = cart.some(item => item.name === name);
+            if(isExist) { notify(`Rank ${name} is already in the cart!`, 'warning'); return; }
             cart.push({ name, price });
             updateCartUI();
-            notify(`${name} RANK ditambahkan ke keranjang!`);
+            notify(`${name} RANK added to the cart!`);
         }
 
         function updateCartUI() {
@@ -595,44 +705,44 @@
                 total += item.price;
                 cartItems.innerHTML += `<tr><td>${item.name} RANK</td><td>Rp ${item.price.toLocaleString()}</td><td><button class="btn-remove" onclick="removeFromCart(${index})">REMOVE</button></td></tr>`;
             });
+            if(discountActive) { total = total * 0.5; }
             totalPriceEl.innerText = "Rp " + total.toLocaleString();
         }
 
         function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); }
 
+        function applyVoucher() {
+            const input = document.getElementById('voucherInput').value;
+            const status = document.getElementById('voucherStatus');
+            if(input === "Jevann") {
+                discountActive = true;
+                status.innerText = "KODE BERHASIL: DISKON 50% DITERAPKAN!";
+                status.style.color = "var(--success-green)";
+                updateCartUI();
+            } else {
+                discountActive = false;
+                status.innerText = "KODE TIDAK VALID.";
+                status.style.color = "#ef4444";
+                updateCartUI();
+            }
+        }
+
         function processCheckout() {
             if(cart.length === 0) return alert("Keranjang masih kosong!");
             let total = 0;
             let itemList = cart.map(item => { total += item.price; return "- " + item.name + " RANK"; }).join("%0A");
+            if(discountActive) { total = total * 0.5; itemList += "%0A(Kode: Jevann - Disc 50%)"; }
             let message = `Halo Admin! Saya ${username} ingin membeli:%0A${itemList}%0ATotal: Rp ${total.toLocaleString()}%0ATolong diproses ya min!`;
             window.open(`https://wa.me/6283137005325?text=${message}`, '_blank');
         }
 
         const data = {
-            wayfarer: { 
-                name: "WAYFARER RANK", 
-                benefits: ["❖ Default Rank for New Players", "❖ Basic Kit Access", "❖ Welcome to Febericc II", "❖ /spawn access", "❖ Starter Food Kit"] 
-            },
-            warden: { 
-                name: "WARDEN RANK", 
-                benefits: ["❖ Prefix Warden", "❖ 2 Set Homes", "❖ 2 Player Warps", "❖ Special Warden Kit", "<span class='cmd-section'>? COMMANDS</span>", "❖ Access to /hat", "❖ Access to /back", "❖ /workbench"] 
-            },
-            sentinel: { 
-                name: "SENTINEL RANK", 
-                benefits: ["❖ Prefix Sentinel", "❖ Sentinel Kit (Iron/Diamond)", "❖ 5 Menit TempFly / Day", "❖ 3 Set Homes", "❖ Sentinel Gacha Key", "<span class='cmd-section'>? COMMANDS</span>", "❖ /fly", "❖ /craft", "❖ /back", "❖ /near"] 
-            },
-            overseer: { 
-                name: "OVERSEER RANK", 
-                benefits: ["❖ Prefix Overseer", "❖ Overseer Kit (Full Diamond)", "❖ 10 Menit TempFly / Day", "❖ 5 Set Homes", "❖ Overseer Daily Key", "<span class='cmd-section'>? COMMANDS</span>", "❖ /feed", "❖ /fly", "❖ /craft", "❖ /back", "❖ /condense"] 
-            },
-            paragon: { 
-                name: "PARAGON RANK", 
-                benefits: ["❖ Prefix Paragon", "❖ Paragon Kit (Diamond/Netherite)", "❖ 15 Menit TempFly / Day", "❖ 6 Set Homes", "❖ Access to /nickname", "❖ Paragon Monthly Key", "<span class='cmd-section'>? COMMANDS</span>", "❖ /enderchest", "❖ /feed", "❖ /fly", "❖ /back", "❖ /ptime"] 
-            },
-            eternal: { 
-                name: "ETERNAL RANK", 
-                benefits: ["❖ Prefix Eternal", "❖ Eternal Kit (Netherite God)", "❖ 20 Menit TempFly / Day", "❖ 9 Set Homes", "❖ Access to /nickname (Color)", "❖ Custom Join Message", "❖ Eternal Mythic Key", "❖ Keep Experience on Death", "<span class='cmd-section'>? COMMANDS</span>", "❖ /stonecutter", "❖ /feed", "❖ /fly", "❖ /enderchest", "❖ /back", "❖ /pweather"] 
-            }
+            wayfarer: { name: "WAYFARER RANK", benefits: ["❖ Default Rank for New Players", "❖ Basic Kit Access", "❖ Welcome to Febericc II", "❖ /spawn access", "❖ Starter Food Kit"] },
+            warden: { name: "WARDEN RANK", benefits: ["❖ Prefix Warden", "❖ 2 Set Homes", "<span class='cmd-section'>? COMMANDS</span>", "❖ Access to /hat", "❖ Access to /back"] },
+            sentinel: { name: "SENTINEL RANK", benefits: ["❖ Prefix Sentinel", "❖ 3 Set Homes", "❖ 5 Menit TempFly / Day", "<span class='cmd-section'>? COMMANDS</span>", "❖ /hat", "❖ /back", "❖ /craft", "❖ /fly"] },
+            overseer: { name: "OVERSEER RANK", benefits: ["❖ Prefix Overseer", "❖ 5 Set Homes", "❖ 10 Menit TempFly / Day", "❖ Access to Nether RTP", "<span class='cmd-section'>? COMMANDS</span>", "❖ /hat", "❖ /back", "❖ /craft", "❖ /fly", "❖ /feed"] },
+            paragon: { name: "PARAGON RANK", benefits: ["❖ Prefix Paragon", "❖ 6 Set Homes", "❖ 15 Menit TempFly / Day", "❖ Access to Nether RTP", "<span class='cmd-section'>? COMMANDS</span>", "❖ /hat", "❖ /back", "❖ /craft", "❖ /fly", "❖ /feed", "❖ /echest", "❖ /nickname"] },
+            eternal: { name: "ETERNAL RANK", benefits: ["❖ 🏆 Godly Eternal Golden Prefix", "❖ 🏘️ UNLIMITED Player Homes", "❖ ♾️ UNLIMITED Fly Mode Access", "❖ Access to Nether RTP", "❖ Access to The End RTP", "<span class='cmd-section'>? EXCLUSIVE COMMANDS</span>", "❖ /hat", "❖ /back", "❖ /craft", "❖ /fly", "❖ /feed", "❖ /echest", "❖ /nickname", "❖ /stonecutter", "❖ /anvil", "❖ /heal"] }
         };
 
         function showModal(rankKey) {
@@ -646,10 +756,6 @@
         function closeModal() { 
             document.getElementById('benefitModal').style.display = "none"; 
             document.body.style.overflow = "auto";
-        }
-
-        window.onclick = function(event) {
-            if (event.target == document.getElementById('benefitModal')) closeModal();
         }
     </script>
 </body>
