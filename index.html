@@ -538,8 +538,8 @@
                 <ul>
                     <li class="tab-link active" onclick="openTab(event, 'home')">🏠 Home Screen</li>
                     <li class="tab-link" id="sidebar-smp" onclick="openTab(event, 'smp')">🛡️ Febericc SMP</li>
+                    <li class="tab-link" onclick="openTab(event, 'essentials')">⚡ Server Essentials</li>
                     <li class="tab-link" onclick="openTab(event, 'donation')">🎁 Server Donation</li>
-                    <li class="tab-link" id="sidebar-checkout" onclick="openTab(event, 'checkoutTab')">🛒 Checkout</li>
                 </ul>
             </div>
         </aside>
@@ -598,9 +598,33 @@
                     <div class="card eternal-glow">
                         <div style="position: absolute; top: -10px; right: -10px; background: var(--eternal-color); color: #000; font-size: 0.65rem; padding: 5px 12px; border-radius: 4px; font-weight: 800; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">PREMIUM SELECTION</div>
                         <h2 class="rank-title eternal">ETERNAL 👑</h2>
-                        <span class="price">Rp 5    0.000</span>
+                        <span class="price">Rp 50.000</span>
                         <button class="btn-benefit" onclick="showModal('eternal')">VIEW BENEFITS</button>
                         <button class="btn-add" onclick="addToCart('ETERNAL', 50000)">+ Add to cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="essentials" class="tab-content">
+                <h2 class="category-title">⚡ SERVER ESSENTIALS</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h2 class="rank-title" style="color: #60a5fa;">FLY COUPON  🕊️</h2>
+                        <p style="font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px;">30 Minutes Fly Time</p>
+                        <span class="price">Rp 5.000</span>
+                        <button class="btn-add" onclick="addToCart('Fly Coupon (30m)', 5000)">+ Add to cart</button>
+                    </div>
+                    <div class="card">
+                        <h2 class="rank-title" style="color: #fbbf24;">FLY CRATE KEY 🗝️</h2>
+                        <p style="font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px;">Bundle of 3 Keys</p>
+                        <span class="price">Rp 5.000</span>
+                        <button class="btn-add" onclick="addToCart('3x Fly Crate Key', 5000)">+ Add to cart</button>
+                    </div>
+                    <div class="card">
+                        <h2 class="rank-title" style="color: #f43f5e;">SHARD CRATE KEY 💎</h2>
+                        <p style="font-size: 0.8rem; opacity: 0.8; margin-bottom: 10px;">Bundle of 3 Keys</p>
+                        <span class="price">Rp 5.000</span>
+                        <button class="btn-add" onclick="addToCart('3x Shard Crate Key', 5000)">+ Add to cart</button>
                     </div>
                 </div>
             </div>
@@ -684,15 +708,15 @@
             for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
             document.getElementById(tabName).classList.add("active");
             if(evt) { evt.currentTarget.classList.add("active"); }
-            else { if(tabName === 'checkoutTab') document.getElementById('sidebar-checkout').classList.add('active'); }
+            // Hapus bagian penanganan otomatis sidebar checkout agar tidak membingungkan
         }
 
         function addToCart(name, price) {
             const isExist = cart.some(item => item.name === name);
-            if(isExist) { notify(`Rank ${name} is already in the cart!`, 'warning'); return; }
+            if(isExist) { notify(`Item ${name} is already in the cart!`, 'warning'); return; }
             cart.push({ name, price });
             updateCartUI();
-            notify(`${name} RANK added to the cart!`);
+            notify(`${name} added to the cart!`);
         }
 
         function updateCartUI() {
@@ -703,7 +727,7 @@
             let total = 0;
             cart.forEach((item, index) => {
                 total += item.price;
-                cartItems.innerHTML += `<tr><td>${item.name} RANK</td><td>Rp ${item.price.toLocaleString()}</td><td><button class="btn-remove" onclick="removeFromCart(${index})">REMOVE</button></td></tr>`;
+                cartItems.innerHTML += `<tr><td>${item.name}</td><td>Rp ${item.price.toLocaleString()}</td><td><button class="btn-remove" onclick="removeFromCart(${index})">REMOVE</button></td></tr>`;
             });
             if(discountActive) { total = total * 0.5; }
             totalPriceEl.innerText = "Rp " + total.toLocaleString();
@@ -716,7 +740,7 @@
             const status = document.getElementById('voucherStatus');
             if(input === "Jevann") {
                 discountActive = true;
-                status.innerText = "KODE BERHASIL: DISKON 50% DITERAPKAN!";
+                status.innerText = "KODE BERHASIL: DISKON 30% DITERAPKAN!";
                 status.style.color = "var(--success-green)";
                 updateCartUI();
             } else {
@@ -730,8 +754,8 @@
         function processCheckout() {
             if(cart.length === 0) return alert("Keranjang masih kosong!");
             let total = 0;
-            let itemList = cart.map(item => { total += item.price; return "- " + item.name + " RANK"; }).join("%0A");
-            if(discountActive) { total = total * 0.5; itemList += "%0A(Kode: Jevann - Disc 50%)"; }
+            let itemList = cart.map(item => { total += item.price; return "- " + item.name; }).join("%0A");
+            if(discountActive) { total = total * 0.3; itemList += "%0A(Kode: Jevann - Disc 30%)"; }
             let message = `Halo Admin! Saya ${username} ingin membeli:%0A${itemList}%0ATotal: Rp ${total.toLocaleString()}%0ATolong diproses ya min!`;
             window.open(`https://wa.me/6283137005325?text=${message}`, '_blank');
         }
